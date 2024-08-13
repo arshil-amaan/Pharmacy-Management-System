@@ -1,7 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
+const z = require("zod");
+const jwt = require("jsonwebtoken");
+const jwtSecret = "guptlekh"
 
 async function main() {
   await mongoose.connect('mongodb+srv://arshil:pharma@cluster0.0pv7w.mongodb.net/pharma-app');
@@ -15,6 +17,12 @@ const userSchema = new mongoose.Schema({
   password: String
 });
 
+const Uservalidation = z.object({
+  username: z.string().min(3),
+  email: z.string().email(),
+  password: z.string().min(8),
+});
+
 const User = mongoose.model('User', userSchema);
 
 const app = express();
@@ -23,10 +31,14 @@ app.use(express.json())
 app.use(cors())
 
 app.post('/signup', async (req, res) => {
+  const { username, email, password } = req.body;
+  const s = Uservalidation.safeParse({ username, email, password })
+  if (!s.success) {
+    return res.status(400).json(s.error)
+  }
   try {
     const user = await User.findOne({ username: req.body.username });
     if (!user) {
-      const {username,email,password} = req.body;
       const resp = await User.create({
         username,
         email,
@@ -54,7 +66,10 @@ app.post("/signin", async (req, res) => {
   if (!user) {
     return res.status(400).json({ msg: 'Invalid username or password' })
   } else {
-    return res.status(200).json({ msg: 'User logged in successfully' })
+    const token = jwt.sign({username: "kuchh likha hai"},jwtSecret)
+    return res.status(200).json({ msg: 'User logged in successfully', token:
+      "Bearer "+token
+    })
   }
 })
 
