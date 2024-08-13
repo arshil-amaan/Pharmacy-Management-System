@@ -15,7 +15,9 @@ const SignupForm = () => {
 
         <form onSubmit={handleFormSubmit} className="space-y-6">
           <div className="flex flex-col">
-            <label>Username:</label>
+            <label className="block text-gray-700 font-semibold mb-1">
+              Username:
+            </label>
             <input
               id="username"
               className="outline-none h-10 px-4 border rounded w-full"
@@ -27,7 +29,9 @@ const SignupForm = () => {
           </div>
 
           <div className="flex flex-col">
-            <label>Email:</label>
+            <label className="block text-gray-700 font-semibold mb-1">
+              Email:
+            </label>
             <input
               id="email"
               className="outline-none h-10 px-4 border rounded w-full"
@@ -39,7 +43,9 @@ const SignupForm = () => {
           </div>
 
           <div className="flex flex-col">
-            <label>Password:</label>
+            <label className="block text-gray-700 font-semibold mb-1">
+              Password:
+            </label>
             <input
               id="password"
               className="outline-none h-10 px-4 border rounded w-full"
