@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import { Route, Routes } from "react-router";
-import { BrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import LoginForm from "./components/auth/LoginForm";
 import SignupForm from "./components/auth/SignupForm";
@@ -9,14 +8,20 @@ import SignupForm from "./components/auth/SignupForm";
 function App() {
   const [count, setCount] = useState(0);
 
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <LoginForm />,
+    },
+    {
+      path: "/sign-up",
+      element: <SignupForm />,
+    },
+  ]);
+
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LoginForm />} />
-          <Route path="/sign-up" element={<SignupForm />} />
-        </Routes>
-      </BrowserRouter>
+      <RouterProvider router={router} />
 
       <div></div>
     </>
